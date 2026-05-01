@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Fin Lab Vibe</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  </head>
+  <body>
+    <main class="page">
+      <section class="section">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">CROSS ASSET</p>
+            <h1>黄金、波动率与 TIPS 实际利率</h1>
+          </div>
+          <div class="head-actions">
+            <span class="source">Source: Yahoo Finance + FRED</span>
+            <div class="periods" aria-label="period selector">
+              <button data-period="1mo">1M</button>
+              <button data-period="3mo">3M</button>
+              <button data-period="6mo" class="active">6M</button>
+              <button data-period="1y">1Y</button>
+            </div>
+          </div>
+        </div>
+        <div id="crossCards" class="metric-grid four"></div>
+        <div id="crossComment" class="notice"></div>
+        <article class="panel">
+          <div class="panel-head">
+            <h2>多指标对比</h2>
+            <span>金价实线，TIPS 实际利率虚线，波动率独立右轴</span>
+          </div>
+          <div class="chart-wrap tall"><canvas id="crossChart"></canvas></div>
+        </article>
+        <article class="panel">
+          <div class="panel-head">
+            <h2>Base 100 趋势对比</h2>
+            <span>便于观察方向一致性</span>
+          </div>
+          <div class="chart-wrap"><canvas id="baseChart"></canvas></div>
+        </article>
+      </section>
+
+      <section class="section">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">MACRO PULSE</p>
+            <h1>市场情绪与利率曲线</h1>
+          </div>
+          <span class="source">Source: FRED Treasury Constant Maturity</span>
+        </div>
+        <article class="regime">
+          <div>
+            <span>Market Regime</span>
+            <strong id="regimeText">--</strong>
+          </div>
+          <p id="regimeCopy">风险偏好较高，权益资产更受青睐。</p>
+        </article>
+        <div id="macroCards" class="metric-grid four compact"></div>
+        <div class="split">
+          <article class="panel">
+            <div class="panel-head"><h2>10Y 收益率趋势</h2><span>FRED DGS10</span></div>
+            <div class="chart-wrap"><canvas id="tenYearChart"></canvas></div>
+          </article>
+          <article class="panel">
+            <div class="panel-head"><h2>当前收益率曲线</h2><span>2Y / 10Y / 30Y</span></div>
+            <div class="chart-wrap"><canvas id="curveChart"></canvas></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">VALUATION LAB</p>
+            <h1>大科技估值雷达</h1>
+          </div>
+          <span class="source">Yahoo quote + local valuation model</span>
+        </div>
+        <article class="panel list-panel">
+          <h2>Forward PE 排名（从低到高）</h2>
+          <div id="forwardRank" class="rank-list"></div>
+        </article>
+        <article class="panel list-panel">
+          <h2>PE 估值百分位（从高到低）</h2>
+          <div id="percentileRank" class="rank-list"></div>
+        </article>
+        <div class="split">
+          <article class="panel">
+            <div class="panel-head"><h2>YTD 涨幅排序</h2><span>相对年初价格</span></div>
+            <div class="chart-wrap"><canvas id="ytdChart"></canvas></div>
+          </article>
+          <article class="panel">
+            <div class="panel-head"><h2>估值与盈利能力矩阵</h2><span>TTM PE × ROE</span></div>
+            <div class="chart-wrap"><canvas id="matrixChart"></canvas></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">SINGLE STOCK</p>
+            <h1>查询个股估值</h1>
+          </div>
+          <span class="source">Yahoo Finance via public chart API</span>
+        </div>
+        <form id="stockForm" class="search-row">
+          <input id="symbolInput" name="symbol" value="USAR" autocomplete="off" aria-label="stock symbol">
+          <button type="submit">查询</button>
+          <button type="button" id="summaryBtn" class="secondary">生成摘要</button>
+        </form>
+        <article id="stockResult" class="stock-result"></article>
+      </section>
+    </main>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+  </body>
+</html>
